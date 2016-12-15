@@ -6,7 +6,6 @@ import com.liu.smallProgram.talkHall.entity.UserAccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 /**
  * The type User account service.
