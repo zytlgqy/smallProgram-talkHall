@@ -1,8 +1,8 @@
-package com.liu.smallProgram.talkHall.entity;
+package com.liu.smallProgram.talkHall.model;
 
 import java.util.Date;
 
-public class UserInfoEntity {
+public class UserInfo {
     private Integer userInfoId;
 
     private Integer userId;

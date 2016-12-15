@@ -1,8 +1,8 @@
-package com.liu.smallProgram.talkHall.entity;
+package com.liu.smallProgram.talkHall.model;
 
 import java.util.Date;
 
-public class MessageBoardHallEntity {
+public class MessageBoardHall {
     private Integer messageId;
 
     private Integer messageSpeakerId;

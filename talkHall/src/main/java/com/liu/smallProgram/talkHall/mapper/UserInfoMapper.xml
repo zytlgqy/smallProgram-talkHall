@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.liu.smallProgram.talkHall.dao.UserInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.liu.smallProgram.talkHall.entity.UserInfoEntity" >
+  <resultMap id="BaseResultMap" type="com.liu.smallProgram.talkHall.model.UserInfo" >
     <id column="user_info_id" property="userInfoId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="user_name_real" property="userNameReal" jdbcType="VARCHAR" />
@@ -14,14 +14,88 @@
     <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
     <result column="user_qq" property="userQq" jdbcType="VARCHAR" />
     <result column="user_wechat" property="userWechat" jdbcType="VARCHAR" />
+    <result column="user_department_belongs" property="userDepartmentBelongs" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="late_update_time" property="lateUpdateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
   <sql id="Base_Column_List" >
     user_info_id, user_id, user_name_real, user_name_nick, user_avatar, user_gender, 
     user_age, user_personalized_signature, user_self_introduce, user_phone, user_qq, 
-    user_wechat, create_time, late_update_time
+    user_wechat, user_department_belongs, create_time, late_update_time
   </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.liu.smallProgram.talkHall.model.UserInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -32,19 +106,27 @@
     delete from user_info
     where user_info_id = #{userInfoId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.liu.smallProgram.talkHall.entity.UserInfoEntity" >
+  <delete id="deleteByExample" parameterType="com.liu.smallProgram.talkHall.model.UserInfoExample" >
+    delete from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.liu.smallProgram.talkHall.model.UserInfo" >
     insert into user_info (user_info_id, user_id, user_name_real, 
       user_name_nick, user_avatar, user_gender, 
       user_age, user_personalized_signature, user_self_introduce, 
       user_phone, user_qq, user_wechat, 
-      create_time, late_update_time)
+      user_department_belongs, create_time, late_update_time
+      )
     values (#{userInfoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userNameReal,jdbcType=VARCHAR}, 
       #{userNameNick,jdbcType=VARCHAR}, #{userAvatar,jdbcType=VARCHAR}, #{userGender,jdbcType=INTEGER}, 
       #{userAge,jdbcType=INTEGER}, #{userPersonalizedSignature,jdbcType=VARCHAR}, #{userSelfIntroduce,jdbcType=VARCHAR}, 
       #{userPhone,jdbcType=VARCHAR}, #{userQq,jdbcType=VARCHAR}, #{userWechat,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{lateUpdateTime,jdbcType=TIMESTAMP})
+      #{userDepartmentBelongs,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{lateUpdateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.entity.UserInfoEntity" >
+  <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.model.UserInfo" >
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userInfoId != null" >
@@ -82,6 +164,9 @@
       </if>
       <if test="userWechat != null" >
         user_wechat,
+      </if>
+      <if test="userDepartmentBelongs != null" >
+        user_department_belongs,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -127,6 +212,9 @@
       <if test="userWechat != null" >
         #{userWechat,jdbcType=VARCHAR},
       </if>
+      <if test="userDepartmentBelongs != null" >
+        #{userDepartmentBelongs,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -135,7 +223,87 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.entity.UserInfoEntity" >
+  <select id="countByExample" parameterType="com.liu.smallProgram.talkHall.model.UserInfoExample" resultType="java.lang.Integer" >
+    select count(*) from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_info
+    <set >
+      <if test="record.userInfoId != null" >
+        user_info_id = #{record.userInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userNameReal != null" >
+        user_name_real = #{record.userNameReal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userNameNick != null" >
+        user_name_nick = #{record.userNameNick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userAvatar != null" >
+        user_avatar = #{record.userAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userGender != null" >
+        user_gender = #{record.userGender,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAge != null" >
+        user_age = #{record.userAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.userPersonalizedSignature != null" >
+        user_personalized_signature = #{record.userPersonalizedSignature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userSelfIntroduce != null" >
+        user_self_introduce = #{record.userSelfIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPhone != null" >
+        user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userQq != null" >
+        user_qq = #{record.userQq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userWechat != null" >
+        user_wechat = #{record.userWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDepartmentBelongs != null" >
+        user_department_belongs = #{record.userDepartmentBelongs,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lateUpdateTime != null" >
+        late_update_time = #{record.lateUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_info
+    set user_info_id = #{record.userInfoId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_name_real = #{record.userNameReal,jdbcType=VARCHAR},
+      user_name_nick = #{record.userNameNick,jdbcType=VARCHAR},
+      user_avatar = #{record.userAvatar,jdbcType=VARCHAR},
+      user_gender = #{record.userGender,jdbcType=INTEGER},
+      user_age = #{record.userAge,jdbcType=INTEGER},
+      user_personalized_signature = #{record.userPersonalizedSignature,jdbcType=VARCHAR},
+      user_self_introduce = #{record.userSelfIntroduce,jdbcType=VARCHAR},
+      user_phone = #{record.userPhone,jdbcType=VARCHAR},
+      user_qq = #{record.userQq,jdbcType=VARCHAR},
+      user_wechat = #{record.userWechat,jdbcType=VARCHAR},
+      user_department_belongs = #{record.userDepartmentBelongs,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      late_update_time = #{record.lateUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.model.UserInfo" >
     update user_info
     <set >
       <if test="userId != null" >
@@ -171,6 +339,9 @@
       <if test="userWechat != null" >
         user_wechat = #{userWechat,jdbcType=VARCHAR},
       </if>
+      <if test="userDepartmentBelongs != null" >
+        user_department_belongs = #{userDepartmentBelongs,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -180,7 +351,7 @@
     </set>
     where user_info_id = #{userInfoId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.entity.UserInfoEntity" >
+  <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.model.UserInfo" >
     update user_info
     set user_id = #{userId,jdbcType=INTEGER},
       user_name_real = #{userNameReal,jdbcType=VARCHAR},
@@ -193,6 +364,7 @@
       user_phone = #{userPhone,jdbcType=VARCHAR},
       user_qq = #{userQq,jdbcType=VARCHAR},
       user_wechat = #{userWechat,jdbcType=VARCHAR},
+      user_department_belongs = #{userDepartmentBelongs,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       late_update_time = #{lateUpdateTime,jdbcType=TIMESTAMP}
     where user_info_id = #{userInfoId,jdbcType=INTEGER}

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.liu.smallProgram.talkHall.dao.UserAccountMapper" >
-  <resultMap id="BaseResultMap" type="com.liu.smallProgram.talkHall.model.UserAccount" >
-    <id column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="user_account" property="userAccount" jdbcType="VARCHAR" />
-    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
-    <result column="user_state" property="userState" jdbcType="INTEGER" />
+<mapper namespace="com.liu.smallProgram.talkHall.dao.DepartmentBelongsMapper" >
+  <resultMap id="BaseResultMap" type="com.liu.smallProgram.talkHall.model.DepartmentBelongs" >
+    <id column="department_belongs_id" property="departmentBelongsId" jdbcType="INTEGER" />
+    <result column="department_title" property="departmentTitle" jdbcType="VARCHAR" />
+    <result column="department_state" property="departmentState" jdbcType="INTEGER" />
+    <result column="department_priority" property="departmentPriority" jdbcType="INTEGER" />
+    <result column="department_number" property="departmentNumber" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -68,16 +69,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    user_id, user_account, user_password, user_state, create_time, last_update_time
+    department_belongs_id, department_title, department_state, department_priority, department_number, 
+    create_time, last_update_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.liu.smallProgram.talkHall.model.UserAccountExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.liu.smallProgram.talkHall.model.DepartmentBelongsExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from user_account
+    from department_belongs
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,41 +90,44 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from user_account
-    where user_id = #{userId,jdbcType=INTEGER}
+    from department_belongs
+    where department_belongs_id = #{departmentBelongsId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from user_account
-    where user_id = #{userId,jdbcType=INTEGER}
+    delete from department_belongs
+    where department_belongs_id = #{departmentBelongsId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.liu.smallProgram.talkHall.model.UserAccountExample" >
-    delete from user_account
+  <delete id="deleteByExample" parameterType="com.liu.smallProgram.talkHall.model.DepartmentBelongsExample" >
+    delete from department_belongs
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.liu.smallProgram.talkHall.model.UserAccount" >
-    insert into user_account (user_id, user_account, user_password, 
-      user_state, create_time, last_update_time
-      )
-    values (#{userId,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{userState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.liu.smallProgram.talkHall.model.DepartmentBelongs" >
+    insert into department_belongs (department_belongs_id, department_title, 
+      department_state, department_priority, department_number, 
+      create_time, last_update_time)
+    values (#{departmentBelongsId,jdbcType=INTEGER}, #{departmentTitle,jdbcType=VARCHAR}, 
+      #{departmentState,jdbcType=INTEGER}, #{departmentPriority,jdbcType=INTEGER}, #{departmentNumber,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.model.UserAccount" >
-    insert into user_account
+  <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.model.DepartmentBelongs" >
+    insert into department_belongs
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        user_id,
+      <if test="departmentBelongsId != null" >
+        department_belongs_id,
       </if>
-      <if test="userAccount != null" >
-        user_account,
+      <if test="departmentTitle != null" >
+        department_title,
       </if>
-      <if test="userPassword != null" >
-        user_password,
+      <if test="departmentState != null" >
+        department_state,
       </if>
-      <if test="userState != null" >
-        user_state,
+      <if test="departmentPriority != null" >
+        department_priority,
+      </if>
+      <if test="departmentNumber != null" >
+        department_number,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -132,17 +137,20 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="departmentBelongsId != null" >
+        #{departmentBelongsId,jdbcType=INTEGER},
       </if>
-      <if test="userAccount != null" >
-        #{userAccount,jdbcType=VARCHAR},
+      <if test="departmentTitle != null" >
+        #{departmentTitle,jdbcType=VARCHAR},
       </if>
-      <if test="userPassword != null" >
-        #{userPassword,jdbcType=VARCHAR},
+      <if test="departmentState != null" >
+        #{departmentState,jdbcType=INTEGER},
       </if>
-      <if test="userState != null" >
-        #{userState,jdbcType=INTEGER},
+      <if test="departmentPriority != null" >
+        #{departmentPriority,jdbcType=INTEGER},
+      </if>
+      <if test="departmentNumber != null" >
+        #{departmentNumber,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -152,26 +160,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.liu.smallProgram.talkHall.model.UserAccountExample" resultType="java.lang.Integer" >
-    select count(*) from user_account
+  <select id="countByExample" parameterType="com.liu.smallProgram.talkHall.model.DepartmentBelongsExample" resultType="java.lang.Integer" >
+    select count(*) from department_belongs
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update user_account
+    update department_belongs
     <set >
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.departmentBelongsId != null" >
+        department_belongs_id = #{record.departmentBelongsId,jdbcType=INTEGER},
       </if>
-      <if test="record.userAccount != null" >
-        user_account = #{record.userAccount,jdbcType=VARCHAR},
+      <if test="record.departmentTitle != null" >
+        department_title = #{record.departmentTitle,jdbcType=VARCHAR},
       </if>
-      <if test="record.userPassword != null" >
-        user_password = #{record.userPassword,jdbcType=VARCHAR},
+      <if test="record.departmentState != null" >
+        department_state = #{record.departmentState,jdbcType=INTEGER},
       </if>
-      <if test="record.userState != null" >
-        user_state = #{record.userState,jdbcType=INTEGER},
+      <if test="record.departmentPriority != null" >
+        department_priority = #{record.departmentPriority,jdbcType=INTEGER},
+      </if>
+      <if test="record.departmentNumber != null" >
+        department_number = #{record.departmentNumber,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -185,28 +196,32 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update user_account
-    set user_id = #{record.userId,jdbcType=INTEGER},
-      user_account = #{record.userAccount,jdbcType=VARCHAR},
-      user_password = #{record.userPassword,jdbcType=VARCHAR},
-      user_state = #{record.userState,jdbcType=INTEGER},
+    update department_belongs
+    set department_belongs_id = #{record.departmentBelongsId,jdbcType=INTEGER},
+      department_title = #{record.departmentTitle,jdbcType=VARCHAR},
+      department_state = #{record.departmentState,jdbcType=INTEGER},
+      department_priority = #{record.departmentPriority,jdbcType=INTEGER},
+      department_number = #{record.departmentNumber,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.model.UserAccount" >
-    update user_account
+  <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.model.DepartmentBelongs" >
+    update department_belongs
     <set >
-      <if test="userAccount != null" >
-        user_account = #{userAccount,jdbcType=VARCHAR},
+      <if test="departmentTitle != null" >
+        department_title = #{departmentTitle,jdbcType=VARCHAR},
       </if>
-      <if test="userPassword != null" >
-        user_password = #{userPassword,jdbcType=VARCHAR},
+      <if test="departmentState != null" >
+        department_state = #{departmentState,jdbcType=INTEGER},
       </if>
-      <if test="userState != null" >
-        user_state = #{userState,jdbcType=INTEGER},
+      <if test="departmentPriority != null" >
+        department_priority = #{departmentPriority,jdbcType=INTEGER},
+      </if>
+      <if test="departmentNumber != null" >
+        department_number = #{departmentNumber,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -215,15 +230,16 @@
         last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where user_id = #{userId,jdbcType=INTEGER}
+    where department_belongs_id = #{departmentBelongsId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.model.UserAccount" >
-    update user_account
-    set user_account = #{userAccount,jdbcType=VARCHAR},
-      user_password = #{userPassword,jdbcType=VARCHAR},
-      user_state = #{userState,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.model.DepartmentBelongs" >
+    update department_belongs
+    set department_title = #{departmentTitle,jdbcType=VARCHAR},
+      department_state = #{departmentState,jdbcType=INTEGER},
+      department_priority = #{departmentPriority,jdbcType=INTEGER},
+      department_number = #{departmentNumber,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
-    where user_id = #{userId,jdbcType=INTEGER}
+    where department_belongs_id = #{departmentBelongsId,jdbcType=INTEGER}
   </update>
 </mapper>
