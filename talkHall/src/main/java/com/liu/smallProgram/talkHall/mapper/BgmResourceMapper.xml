@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liu.smallProgram.talkHall.dao.BgmResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.liu.smallProgram.talkHall.model.BgmResource" >
+    <id column="bgm_id" property="bgmId" jdbcType="INTEGER" />
+    <result column="bgm_url" property="bgmUrl" jdbcType="VARCHAR" />
+    <result column="bgm_state" property="bgmState" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    bgm_id, bgm_url, bgm_state, create_time, last_update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bgm_resource
+    where bgm_id = #{bgmId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bgm_resource
+    where bgm_id = #{bgmId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liu.smallProgram.talkHall.model.BgmResource" >
+    insert into bgm_resource (bgm_id, bgm_url, bgm_state, 
+      create_time, last_update_time)
+    values (#{bgmId,jdbcType=INTEGER}, #{bgmUrl,jdbcType=VARCHAR}, #{bgmState,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.model.BgmResource" >
+    insert into bgm_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bgmId != null" >
+        bgm_id,
+      </if>
+      <if test="bgmUrl != null" >
+        bgm_url,
+      </if>
+      <if test="bgmState != null" >
+        bgm_state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bgmId != null" >
+        #{bgmId,jdbcType=INTEGER},
+      </if>
+      <if test="bgmUrl != null" >
+        #{bgmUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bgmState != null" >
+        #{bgmState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.model.BgmResource" >
+    update bgm_resource
+    <set >
+      <if test="bgmUrl != null" >
+        bgm_url = #{bgmUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bgmState != null" >
+        bgm_state = #{bgmState,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where bgm_id = #{bgmId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.model.BgmResource" >
+    update bgm_resource
+    set bgm_url = #{bgmUrl,jdbcType=VARCHAR},
+      bgm_state = #{bgmState,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    where bgm_id = #{bgmId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,6 @@
+前后端交互大部分使用json格式
+
+{
+    result:"succeed",
+    msg:{....}
+ }

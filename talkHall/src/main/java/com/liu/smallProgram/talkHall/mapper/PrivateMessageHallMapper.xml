@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liu.smallProgram.talkHall.dao.PrivateMessageHallMapper" >
+  <resultMap id="BaseResultMap" type="com.liu.smallProgram.talkHall.model.PrivateMessageHall" >
+    <id column="private_message_id" property="privateMessageId" jdbcType="INTEGER" />
+    <result column="private_message_hall_owner_id" property="privateMessageHallOwnerId" jdbcType="INTEGER" />
+    <result column="bg_image_id" property="bgImageId" jdbcType="INTEGER" />
+    <result column="bg_music_id" property="bgMusicId" jdbcType="INTEGER" />
+    <result column="private_message_hall_style" property="privateMessageHallStyle" jdbcType="VARCHAR" />
+    <result column="private_message_hall_extends" property="privateMessageHallExtends" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    private_message_id, private_message_hall_owner_id, bg_image_id, bg_music_id, private_message_hall_style, 
+    private_message_hall_extends, create_time, last_update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from private_message_hall
+    where private_message_id = #{privateMessageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from private_message_hall
+    where private_message_id = #{privateMessageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liu.smallProgram.talkHall.model.PrivateMessageHall" >
+    insert into private_message_hall (private_message_id, private_message_hall_owner_id, 
+      bg_image_id, bg_music_id, private_message_hall_style, 
+      private_message_hall_extends, create_time, 
+      last_update_time)
+    values (#{privateMessageId,jdbcType=INTEGER}, #{privateMessageHallOwnerId,jdbcType=INTEGER}, 
+      #{bgImageId,jdbcType=INTEGER}, #{bgMusicId,jdbcType=INTEGER}, #{privateMessageHallStyle,jdbcType=VARCHAR}, 
+      #{privateMessageHallExtends,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.model.PrivateMessageHall" >
+    insert into private_message_hall
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="privateMessageId != null" >
+        private_message_id,
+      </if>
+      <if test="privateMessageHallOwnerId != null" >
+        private_message_hall_owner_id,
+      </if>
+      <if test="bgImageId != null" >
+        bg_image_id,
+      </if>
+      <if test="bgMusicId != null" >
+        bg_music_id,
+      </if>
+      <if test="privateMessageHallStyle != null" >
+        private_message_hall_style,
+      </if>
+      <if test="privateMessageHallExtends != null" >
+        private_message_hall_extends,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="privateMessageId != null" >
+        #{privateMessageId,jdbcType=INTEGER},
+      </if>
+      <if test="privateMessageHallOwnerId != null" >
+        #{privateMessageHallOwnerId,jdbcType=INTEGER},
+      </if>
+      <if test="bgImageId != null" >
+        #{bgImageId,jdbcType=INTEGER},
+      </if>
+      <if test="bgMusicId != null" >
+        #{bgMusicId,jdbcType=INTEGER},
+      </if>
+      <if test="privateMessageHallStyle != null" >
+        #{privateMessageHallStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="privateMessageHallExtends != null" >
+        #{privateMessageHallExtends,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.model.PrivateMessageHall" >
+    update private_message_hall
+    <set >
+      <if test="privateMessageHallOwnerId != null" >
+        private_message_hall_owner_id = #{privateMessageHallOwnerId,jdbcType=INTEGER},
+      </if>
+      <if test="bgImageId != null" >
+        bg_image_id = #{bgImageId,jdbcType=INTEGER},
+      </if>
+      <if test="bgMusicId != null" >
+        bg_music_id = #{bgMusicId,jdbcType=INTEGER},
+      </if>
+      <if test="privateMessageHallStyle != null" >
+        private_message_hall_style = #{privateMessageHallStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="privateMessageHallExtends != null" >
+        private_message_hall_extends = #{privateMessageHallExtends,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where private_message_id = #{privateMessageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.model.PrivateMessageHall" >
+    update private_message_hall
+    set private_message_hall_owner_id = #{privateMessageHallOwnerId,jdbcType=INTEGER},
+      bg_image_id = #{bgImageId,jdbcType=INTEGER},
+      bg_music_id = #{bgMusicId,jdbcType=INTEGER},
+      private_message_hall_style = #{privateMessageHallStyle,jdbcType=VARCHAR},
+      private_message_hall_extends = #{privateMessageHallExtends,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+    where private_message_id = #{privateMessageId,jdbcType=INTEGER}
+  </update>
+</mapper>

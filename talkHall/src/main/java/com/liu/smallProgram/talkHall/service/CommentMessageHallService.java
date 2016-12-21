@@ -1,6 +1,7 @@
 package com.liu.smallProgram.talkHall.service;
 
-import com.liu.smallProgram.talkHall.dao.BaseMapper;
+import com.liu.smallProgram.talkHall.core.BaseMapper;
+import com.liu.smallProgram.talkHall.core.BaseService;
 import com.liu.smallProgram.talkHall.dao.CommentMessageHallMapper;
 import com.liu.smallProgram.talkHall.entity.CommentMessageHallEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class CommentMessageHallService extends BaseService<CommentMessageHallEnt
     /**
      * The Mapper.
      */
-    @Autowired
+    @Autowired(required = false)
     CommentMessageHallMapper mapper;
 
     public BaseMapper<CommentMessageHallEntity> getMapper() {

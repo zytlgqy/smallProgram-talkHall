@@ -1,6 +1,6 @@
 package com.liu.smallProgram.talkHall.service;
 
-import com.liu.smallProgram.talkHall.dao.BaseMapper;
+import com.liu.smallProgram.talkHall.core.BaseService;
 import com.liu.smallProgram.talkHall.dao.UserAccountMapper;
 import com.liu.smallProgram.talkHall.entity.UserAccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 /**
  * The type User account service.
  */
-@Service
-public class UserAccountService extends BaseService<UserAccountEntity>{
+@Service("UserAccountService")
+public class UserAccountService extends BaseService<UserAccountEntity> {
     /**
      * The Mapper.
      */
-    @Autowired
+    @Autowired(required = false)
     UserAccountMapper mapper;
 
-    public BaseMapper<UserAccountEntity> getMapper() {
+    public UserAccountMapper getMapper() {
         return this.mapper;
     }
 
@@ -40,15 +40,35 @@ public class UserAccountService extends BaseService<UserAccountEntity>{
 
 
     /**
-     * 检测账号是否已经存在   存在-true  不存在-false
+     * 检测账号是否已经存在   存在(或传参为空)-true  不存在-false
      * @param userAccount
      * @return
      */
     public boolean checkUserExists(String userAccount){
-        if (userAccount!=null && mapper.ifUserExists(userAccount) == 0){ //不为空  且  查不到  ->不存在
+        if (userAccount!=null && mapper.ifUserExists(userAccount).equals(0)){ //不为空  且  查不到该user  ->不存在
             return false;
         }else {   //为空  或  能查到  ->存在
             return true;
         }
+    }
+
+    /**
+     * 进行登录操作    返回值为int类型，后续处理在controller中进行
+     *                    9-用户名与密码匹配，0-用户名或密码未输入，-1 -用户名或密码错误
+     * @param userAccount
+     * @param password
+     * @return
+     */
+    public int signIn(String userAccount,String password){
+        Integer result;
+        if ("".equals(userAccount) || "".equals(password) || null==userAccount || null== password  ){
+            result = 0;
+        }else{
+            result = mapper.signIn(userAccount,password);
+            if(null == result){
+                result=-1; //如果查询不到，则设置为账号或密码错误
+            }
+        }
+        return result;
     }
 }

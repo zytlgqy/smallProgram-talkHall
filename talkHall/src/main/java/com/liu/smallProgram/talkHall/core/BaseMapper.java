@@ -1,4 +1,4 @@
-package com.liu.smallProgram.talkHall.dao;
+package com.liu.smallProgram.talkHall.core;
 
 
 public interface BaseMapper <T>{

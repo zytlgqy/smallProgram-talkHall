@@ -13,5 +13,8 @@
 <body>
 <h1>welcome</h1>
 <h1>this is the first index</h1>
+
+<p>this is the result :${result}</p>
+<p>this is the message: ${msg}</p>
 </body>
 </html>

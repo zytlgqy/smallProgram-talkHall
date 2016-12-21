@@ -7,9 +7,9 @@ public class MessageBoardHall {
 
     private Integer messageSpeakerId;
 
-    private String messageImagesSrc;
+    private String messageContent;
 
-    private Date createTime;
+    private String messageImagesIds;
 
     private Integer messageDepartmentId;
 
@@ -19,7 +19,11 @@ public class MessageBoardHall {
 
     private Integer messageState;
 
-    private String messageContent;
+    private String messageExtends;
+
+    private Date createTime;
+
+    private Date lastUpdateTime;
 
     public Integer getMessageId() {
         return messageId;
@@ -37,20 +41,20 @@ public class MessageBoardHall {
         this.messageSpeakerId = messageSpeakerId;
     }
 
-    public String getMessageImagesSrc() {
-        return messageImagesSrc;
+    public String getMessageContent() {
+        return messageContent;
     }
 
-    public void setMessageImagesSrc(String messageImagesSrc) {
-        this.messageImagesSrc = messageImagesSrc == null ? null : messageImagesSrc.trim();
+    public void setMessageContent(String messageContent) {
+        this.messageContent = messageContent == null ? null : messageContent.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getMessageImagesIds() {
+        return messageImagesIds;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setMessageImagesIds(String messageImagesIds) {
+        this.messageImagesIds = messageImagesIds == null ? null : messageImagesIds.trim();
     }
 
     public Integer getMessageDepartmentId() {
@@ -85,11 +89,27 @@ public class MessageBoardHall {
         this.messageState = messageState;
     }
 
-    public String getMessageContent() {
-        return messageContent;
+    public String getMessageExtends() {
+        return messageExtends;
     }
 
-    public void setMessageContent(String messageContent) {
-        this.messageContent = messageContent == null ? null : messageContent.trim();
+    public void setMessageExtends(String messageExtends) {
+        this.messageExtends = messageExtends == null ? null : messageExtends.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 }

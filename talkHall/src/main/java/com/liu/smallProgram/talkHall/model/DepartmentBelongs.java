@@ -13,6 +13,8 @@ public class DepartmentBelongs {
 
     private Integer departmentNumber;
 
+    private Integer departmentBgImageId;
+
     private Date createTime;
 
     private Date lastUpdateTime;
@@ -55,6 +57,14 @@ public class DepartmentBelongs {
 
     public void setDepartmentNumber(Integer departmentNumber) {
         this.departmentNumber = departmentNumber;
+    }
+
+    public Integer getDepartmentBgImageId() {
+        return departmentBgImageId;
+    }
+
+    public void setDepartmentBgImageId(Integer departmentBgImageId) {
+        this.departmentBgImageId = departmentBgImageId;
     }
 
     public Date getCreateTime() {

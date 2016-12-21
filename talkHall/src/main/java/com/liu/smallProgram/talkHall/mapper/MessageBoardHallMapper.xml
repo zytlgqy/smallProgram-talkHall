@@ -4,118 +4,23 @@
   <resultMap id="BaseResultMap" type="com.liu.smallProgram.talkHall.model.MessageBoardHall" >
     <id column="message_id" property="messageId" jdbcType="INTEGER" />
     <result column="message_speaker_id" property="messageSpeakerId" jdbcType="INTEGER" />
-    <result column="message_images_src" property="messageImagesSrc" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="message_content" property="messageContent" jdbcType="VARCHAR" />
+    <result column="message_images_ids" property="messageImagesIds" jdbcType="VARCHAR" />
     <result column="message_department_id" property="messageDepartmentId" jdbcType="INTEGER" />
     <result column="message_title" property="messageTitle" jdbcType="VARCHAR" />
     <result column="message_lable" property="messageLable" jdbcType="VARCHAR" />
     <result column="message_state" property="messageState" jdbcType="INTEGER" />
+    <result column="message_extends" property="messageExtends" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.liu.smallProgram.talkHall.model.MessageBoardHall" extends="BaseResultMap" >
-    <result column="message_content" property="messageContent" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
-    message_id, message_speaker_id, message_images_src, create_time, message_department_id, 
-    message_title, message_lable, message_state
+    message_id, message_speaker_id, message_content, message_images_ids, message_department_id, 
+    message_title, message_lable, message_state, message_extends, create_time, last_update_time
   </sql>
-  <sql id="Blob_Column_List" >
-    message_content
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHallExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from message_board_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHallExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from message_board_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from message_board_hall
     where message_id = #{messageId,jdbcType=INTEGER}
   </select>
@@ -123,20 +28,16 @@
     delete from message_board_hall
     where message_id = #{messageId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHallExample" >
-    delete from message_board_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
   <insert id="insert" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHall" >
-    insert into message_board_hall (message_id, message_speaker_id, message_images_src, 
-      create_time, message_department_id, message_title, 
-      message_lable, message_state, message_content
+    insert into message_board_hall (message_id, message_speaker_id, message_content, 
+      message_images_ids, message_department_id, 
+      message_title, message_lable, message_state, 
+      message_extends, create_time, last_update_time
       )
-    values (#{messageId,jdbcType=INTEGER}, #{messageSpeakerId,jdbcType=INTEGER}, #{messageImagesSrc,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{messageDepartmentId,jdbcType=INTEGER}, #{messageTitle,jdbcType=VARCHAR}, 
-      #{messageLable,jdbcType=VARCHAR}, #{messageState,jdbcType=INTEGER}, #{messageContent,jdbcType=LONGVARCHAR}
+    values (#{messageId,jdbcType=INTEGER}, #{messageSpeakerId,jdbcType=INTEGER}, #{messageContent,jdbcType=VARCHAR}, 
+      #{messageImagesIds,jdbcType=VARCHAR}, #{messageDepartmentId,jdbcType=INTEGER}, 
+      #{messageTitle,jdbcType=VARCHAR}, #{messageLable,jdbcType=VARCHAR}, #{messageState,jdbcType=INTEGER}, 
+      #{messageExtends,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHall" >
@@ -148,11 +49,11 @@
       <if test="messageSpeakerId != null" >
         message_speaker_id,
       </if>
-      <if test="messageImagesSrc != null" >
-        message_images_src,
+      <if test="messageContent != null" >
+        message_content,
       </if>
-      <if test="createTime != null" >
-        create_time,
+      <if test="messageImagesIds != null" >
+        message_images_ids,
       </if>
       <if test="messageDepartmentId != null" >
         message_department_id,
@@ -166,8 +67,14 @@
       <if test="messageState != null" >
         message_state,
       </if>
-      <if test="messageContent != null" >
-        message_content,
+      <if test="messageExtends != null" >
+        message_extends,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -177,11 +84,11 @@
       <if test="messageSpeakerId != null" >
         #{messageSpeakerId,jdbcType=INTEGER},
       </if>
-      <if test="messageImagesSrc != null" >
-        #{messageImagesSrc,jdbcType=VARCHAR},
+      <if test="messageContent != null" >
+        #{messageContent,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="messageImagesIds != null" >
+        #{messageImagesIds,jdbcType=VARCHAR},
       </if>
       <if test="messageDepartmentId != null" >
         #{messageDepartmentId,jdbcType=INTEGER},
@@ -195,92 +102,28 @@
       <if test="messageState != null" >
         #{messageState,jdbcType=INTEGER},
       </if>
-      <if test="messageContent != null" >
-        #{messageContent,jdbcType=LONGVARCHAR},
+      <if test="messageExtends != null" >
+        #{messageExtends,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHallExample" resultType="java.lang.Integer" >
-    select count(*) from message_board_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update message_board_hall
-    <set >
-      <if test="record.messageId != null" >
-        message_id = #{record.messageId,jdbcType=INTEGER},
-      </if>
-      <if test="record.messageSpeakerId != null" >
-        message_speaker_id = #{record.messageSpeakerId,jdbcType=INTEGER},
-      </if>
-      <if test="record.messageImagesSrc != null" >
-        message_images_src = #{record.messageImagesSrc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.messageDepartmentId != null" >
-        message_department_id = #{record.messageDepartmentId,jdbcType=INTEGER},
-      </if>
-      <if test="record.messageTitle != null" >
-        message_title = #{record.messageTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="record.messageLable != null" >
-        message_lable = #{record.messageLable,jdbcType=VARCHAR},
-      </if>
-      <if test="record.messageState != null" >
-        message_state = #{record.messageState,jdbcType=INTEGER},
-      </if>
-      <if test="record.messageContent != null" >
-        message_content = #{record.messageContent,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update message_board_hall
-    set message_id = #{record.messageId,jdbcType=INTEGER},
-      message_speaker_id = #{record.messageSpeakerId,jdbcType=INTEGER},
-      message_images_src = #{record.messageImagesSrc,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      message_department_id = #{record.messageDepartmentId,jdbcType=INTEGER},
-      message_title = #{record.messageTitle,jdbcType=VARCHAR},
-      message_lable = #{record.messageLable,jdbcType=VARCHAR},
-      message_state = #{record.messageState,jdbcType=INTEGER},
-      message_content = #{record.messageContent,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update message_board_hall
-    set message_id = #{record.messageId,jdbcType=INTEGER},
-      message_speaker_id = #{record.messageSpeakerId,jdbcType=INTEGER},
-      message_images_src = #{record.messageImagesSrc,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      message_department_id = #{record.messageDepartmentId,jdbcType=INTEGER},
-      message_title = #{record.messageTitle,jdbcType=VARCHAR},
-      message_lable = #{record.messageLable,jdbcType=VARCHAR},
-      message_state = #{record.messageState,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHall" >
     update message_board_hall
     <set >
       <if test="messageSpeakerId != null" >
         message_speaker_id = #{messageSpeakerId,jdbcType=INTEGER},
       </if>
-      <if test="messageImagesSrc != null" >
-        message_images_src = #{messageImagesSrc,jdbcType=VARCHAR},
+      <if test="messageContent != null" >
+        message_content = #{messageContent,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="messageImagesIds != null" >
+        message_images_ids = #{messageImagesIds,jdbcType=VARCHAR},
       </if>
       <if test="messageDepartmentId != null" >
         message_department_id = #{messageDepartmentId,jdbcType=INTEGER},
@@ -294,33 +137,30 @@
       <if test="messageState != null" >
         message_state = #{messageState,jdbcType=INTEGER},
       </if>
-      <if test="messageContent != null" >
-        message_content = #{messageContent,jdbcType=LONGVARCHAR},
+      <if test="messageExtends != null" >
+        message_extends = #{messageExtends,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where message_id = #{messageId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHall" >
-    update message_board_hall
-    set message_speaker_id = #{messageSpeakerId,jdbcType=INTEGER},
-      message_images_src = #{messageImagesSrc,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      message_department_id = #{messageDepartmentId,jdbcType=INTEGER},
-      message_title = #{messageTitle,jdbcType=VARCHAR},
-      message_lable = #{messageLable,jdbcType=VARCHAR},
-      message_state = #{messageState,jdbcType=INTEGER},
-      message_content = #{messageContent,jdbcType=LONGVARCHAR}
     where message_id = #{messageId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.model.MessageBoardHall" >
     update message_board_hall
     set message_speaker_id = #{messageSpeakerId,jdbcType=INTEGER},
-      message_images_src = #{messageImagesSrc,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
+      message_content = #{messageContent,jdbcType=VARCHAR},
+      message_images_ids = #{messageImagesIds,jdbcType=VARCHAR},
       message_department_id = #{messageDepartmentId,jdbcType=INTEGER},
       message_title = #{messageTitle,jdbcType=VARCHAR},
       message_lable = #{messageLable,jdbcType=VARCHAR},
-      message_state = #{messageState,jdbcType=INTEGER}
+      message_state = #{messageState,jdbcType=INTEGER},
+      message_extends = #{messageExtends,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
     where message_id = #{messageId,jdbcType=INTEGER}
   </update>
 </mapper>

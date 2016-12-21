@@ -15,6 +15,9 @@ public class UserAccount {
 
     private Date lastUpdateTime;
 
+    private String userPasswordRepeat;
+
+
     public Integer getUserId() {
         return userId;
     }
@@ -61,5 +64,13 @@ public class UserAccount {
 
     public void setLastUpdateTime(Date lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public String getUserPasswordRepeat() {
+        return userPasswordRepeat;
+    }
+
+    public void setUserPasswordRepeat(String userPasswordRepeat) {
+        this.userPasswordRepeat = userPasswordRepeat;
     }
 }

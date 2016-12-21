@@ -20,6 +20,9 @@
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
+        <!--<property name="url" value="jdbc:mysql://120.77.42.31:3306/talkHall?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true"/>-->
+        <!--<property name="username" value="root"/>-->
+        <!--<property name="password" value="root123"/>-->
 
         <!-- 配置初始化大小、最小、最大 -->
         <property name="initialSize" value="1"/>
@@ -51,18 +54,16 @@
     <!-- 配置myBatis sqlSeesionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
-
-        <!--<property name="mapperLocations" value="classpath*:com/coocaa/fire/device/admin/mapper/*Mapper.xml"/>-->
         <property name="mapperLocations" >
             <list>
-                <value>classpath*:com/liu/smallProgram/talkHall/mapper/*Mapper.xml</value>
+                <value>classpath*:com/liu/smallProgram/talkHall/mapper/**/*Mapper.xml</value>
             </list>
         </property>
     </bean>
 
     <!-- 自动扫描配置，即mapper包下的所有接口都会通过SqlSessionFactory代理，不需要再手工去实现DAO接口 -->
     <bean id="mapperInterface" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.coocaa.fire.device.admin.mapper,com.coocaa.fire.device.core.skyresource.mapper"/>
+        <property name="basePackage" value="com.liu.smallProgram.talkHall.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
@@ -83,7 +84,7 @@
         </tx:attributes>
     </tx:advice>
 
-    <aop:config proxy-target-class="true">
-        <aop:advisor pointcut="execution(* *com.coocaa.fire.device.admin.sys..*.*(..))" advice-ref="txAdvice"/>
-    </aop:config>
+    <!--<aop:config proxy-target-class="true">-->
+        <!--<aop:advisor pointcut="execution(* *com.liu.smallProgram.talkHall..*.*(..))" advice-ref="txAdvice"/>-->
+    <!--</aop:config>-->
 </beans>

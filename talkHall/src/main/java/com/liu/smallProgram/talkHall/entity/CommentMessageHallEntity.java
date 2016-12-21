@@ -9,15 +9,17 @@ public class CommentMessageHallEntity {
 
     private Integer messageId;
 
+    private String commentContent;
+
     private Integer commentState;
 
-    private Date createTime;
-
-    private String commentImagesSrc;
+    private String commentImagesIds;
 
     private Integer commentFatherId;
 
-    private String commentContent;
+    private Date createTime;
+
+    private Date lastUpdateTime;
 
     public Integer getCommentId() {
         return commentId;
@@ -43,6 +45,14 @@ public class CommentMessageHallEntity {
         this.messageId = messageId;
     }
 
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent == null ? null : commentContent.trim();
+    }
+
     public Integer getCommentState() {
         return commentState;
     }
@@ -51,20 +61,12 @@ public class CommentMessageHallEntity {
         this.commentState = commentState;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getCommentImagesIds() {
+        return commentImagesIds;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getCommentImagesSrc() {
-        return commentImagesSrc;
-    }
-
-    public void setCommentImagesSrc(String commentImagesSrc) {
-        this.commentImagesSrc = commentImagesSrc == null ? null : commentImagesSrc.trim();
+    public void setCommentImagesIds(String commentImagesIds) {
+        this.commentImagesIds = commentImagesIds == null ? null : commentImagesIds.trim();
     }
 
     public Integer getCommentFatherId() {
@@ -75,11 +77,19 @@ public class CommentMessageHallEntity {
         this.commentFatherId = commentFatherId;
     }
 
-    public String getCommentContent() {
-        return commentContent;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent == null ? null : commentContent.trim();
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 }

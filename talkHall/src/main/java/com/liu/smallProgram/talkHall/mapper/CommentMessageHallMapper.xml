@@ -5,116 +5,20 @@
     <id column="comment_id" property="commentId" jdbcType="INTEGER" />
     <result column="comment_speaker_id" property="commentSpeakerId" jdbcType="INTEGER" />
     <result column="message_id" property="messageId" jdbcType="INTEGER" />
+    <result column="comment_content" property="commentContent" jdbcType="VARCHAR" />
     <result column="comment_state" property="commentState" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="comment_images_src" property="commentImagesSrc" jdbcType="VARCHAR" />
+    <result column="comment_images_ids" property="commentImagesIds" jdbcType="VARCHAR" />
     <result column="comment_father_id" property="commentFatherId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.liu.smallProgram.talkHall.model.CommentMessageHall" extends="BaseResultMap" >
-    <result column="comment_content" property="commentContent" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
-    comment_id, comment_speaker_id, message_id, comment_state, create_time, comment_images_src, 
-    comment_father_id
+    comment_id, comment_speaker_id, message_id, comment_content, comment_state, comment_images_ids, 
+    comment_father_id, create_time, last_update_time
   </sql>
-  <sql id="Blob_Column_List" >
-    comment_content
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHallExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from comment_message_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHallExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from comment_message_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from comment_message_hall
     where comment_id = #{commentId,jdbcType=INTEGER}
   </select>
@@ -122,19 +26,15 @@
     delete from comment_message_hall
     where comment_id = #{commentId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHallExample" >
-    delete from comment_message_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
   <insert id="insert" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHall" >
     insert into comment_message_hall (comment_id, comment_speaker_id, message_id, 
-      comment_state, create_time, comment_images_src, 
-      comment_father_id, comment_content)
+      comment_content, comment_state, comment_images_ids, 
+      comment_father_id, create_time, last_update_time
+      )
     values (#{commentId,jdbcType=INTEGER}, #{commentSpeakerId,jdbcType=INTEGER}, #{messageId,jdbcType=INTEGER}, 
-      #{commentState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{commentImagesSrc,jdbcType=VARCHAR}, 
-      #{commentFatherId,jdbcType=INTEGER}, #{commentContent,jdbcType=LONGVARCHAR})
+      #{commentContent,jdbcType=VARCHAR}, #{commentState,jdbcType=INTEGER}, #{commentImagesIds,jdbcType=VARCHAR}, 
+      #{commentFatherId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHall" >
     insert into comment_message_hall
@@ -148,20 +48,23 @@
       <if test="messageId != null" >
         message_id,
       </if>
+      <if test="commentContent != null" >
+        comment_content,
+      </if>
       <if test="commentState != null" >
         comment_state,
       </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="commentImagesSrc != null" >
-        comment_images_src,
+      <if test="commentImagesIds != null" >
+        comment_images_ids,
       </if>
       <if test="commentFatherId != null" >
         comment_father_id,
       </if>
-      <if test="commentContent != null" >
-        comment_content,
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -174,88 +77,26 @@
       <if test="messageId != null" >
         #{messageId,jdbcType=INTEGER},
       </if>
+      <if test="commentContent != null" >
+        #{commentContent,jdbcType=VARCHAR},
+      </if>
       <if test="commentState != null" >
         #{commentState,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="commentImagesSrc != null" >
-        #{commentImagesSrc,jdbcType=VARCHAR},
+      <if test="commentImagesIds != null" >
+        #{commentImagesIds,jdbcType=VARCHAR},
       </if>
       <if test="commentFatherId != null" >
         #{commentFatherId,jdbcType=INTEGER},
       </if>
-      <if test="commentContent != null" >
-        #{commentContent,jdbcType=LONGVARCHAR},
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHallExample" resultType="java.lang.Integer" >
-    select count(*) from comment_message_hall
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update comment_message_hall
-    <set >
-      <if test="record.commentId != null" >
-        comment_id = #{record.commentId,jdbcType=INTEGER},
-      </if>
-      <if test="record.commentSpeakerId != null" >
-        comment_speaker_id = #{record.commentSpeakerId,jdbcType=INTEGER},
-      </if>
-      <if test="record.messageId != null" >
-        message_id = #{record.messageId,jdbcType=INTEGER},
-      </if>
-      <if test="record.commentState != null" >
-        comment_state = #{record.commentState,jdbcType=INTEGER},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.commentImagesSrc != null" >
-        comment_images_src = #{record.commentImagesSrc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.commentFatherId != null" >
-        comment_father_id = #{record.commentFatherId,jdbcType=INTEGER},
-      </if>
-      <if test="record.commentContent != null" >
-        comment_content = #{record.commentContent,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update comment_message_hall
-    set comment_id = #{record.commentId,jdbcType=INTEGER},
-      comment_speaker_id = #{record.commentSpeakerId,jdbcType=INTEGER},
-      message_id = #{record.messageId,jdbcType=INTEGER},
-      comment_state = #{record.commentState,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      comment_images_src = #{record.commentImagesSrc,jdbcType=VARCHAR},
-      comment_father_id = #{record.commentFatherId,jdbcType=INTEGER},
-      comment_content = #{record.commentContent,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update comment_message_hall
-    set comment_id = #{record.commentId,jdbcType=INTEGER},
-      comment_speaker_id = #{record.commentSpeakerId,jdbcType=INTEGER},
-      message_id = #{record.messageId,jdbcType=INTEGER},
-      comment_state = #{record.commentState,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      comment_images_src = #{record.commentImagesSrc,jdbcType=VARCHAR},
-      comment_father_id = #{record.commentFatherId,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHall" >
     update comment_message_hall
     <set >
@@ -265,43 +106,37 @@
       <if test="messageId != null" >
         message_id = #{messageId,jdbcType=INTEGER},
       </if>
+      <if test="commentContent != null" >
+        comment_content = #{commentContent,jdbcType=VARCHAR},
+      </if>
       <if test="commentState != null" >
         comment_state = #{commentState,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="commentImagesSrc != null" >
-        comment_images_src = #{commentImagesSrc,jdbcType=VARCHAR},
+      <if test="commentImagesIds != null" >
+        comment_images_ids = #{commentImagesIds,jdbcType=VARCHAR},
       </if>
       <if test="commentFatherId != null" >
         comment_father_id = #{commentFatherId,jdbcType=INTEGER},
       </if>
-      <if test="commentContent != null" >
-        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where comment_id = #{commentId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHall" >
-    update comment_message_hall
-    set comment_speaker_id = #{commentSpeakerId,jdbcType=INTEGER},
-      message_id = #{messageId,jdbcType=INTEGER},
-      comment_state = #{commentState,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      comment_images_src = #{commentImagesSrc,jdbcType=VARCHAR},
-      comment_father_id = #{commentFatherId,jdbcType=INTEGER},
-      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.liu.smallProgram.talkHall.model.CommentMessageHall" >
     update comment_message_hall
     set comment_speaker_id = #{commentSpeakerId,jdbcType=INTEGER},
       message_id = #{messageId,jdbcType=INTEGER},
+      comment_content = #{commentContent,jdbcType=VARCHAR},
       comment_state = #{commentState,jdbcType=INTEGER},
+      comment_images_ids = #{commentImagesIds,jdbcType=VARCHAR},
+      comment_father_id = #{commentFatherId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      comment_images_src = #{commentImagesSrc,jdbcType=VARCHAR},
-      comment_father_id = #{commentFatherId,jdbcType=INTEGER}
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
 </mapper>

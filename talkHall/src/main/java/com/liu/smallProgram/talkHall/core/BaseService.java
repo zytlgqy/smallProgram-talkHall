@@ -1,7 +1,5 @@
-package com.liu.smallProgram.talkHall.service;
+package com.liu.smallProgram.talkHall.core;
 
-
-import com.liu.smallProgram.talkHall.dao.BaseMapper;
 
 /**
  * The type Base service.
@@ -72,4 +70,5 @@ public abstract class BaseService <T>{
     public int updateByPrimaryKey(T record) {
         return getMapper().updateByPrimaryKey(record);
     }
+
 }
